@@ -1,0 +1,37 @@
+{
+  "name": "insomnia-plugin-atlassian-asap-slauth",
+  "version": "1.0.0",
+  "author": "Utkarsh Srivastava <usrivastava92@gmail.com>",
+  "description": "An Insomnia plugin to generate Atlassian ASAP or SLAUTH tokens seamlessly",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/usrivastava92/insomnia-plugin-atlassian-asap-slauth.git"
+  },
+  "bugs": {
+    "url": "https://github.com/usrivastava92/insomnia-plugin-atlassian-asap-slauth/issues"
+  },
+  "main": "index.js",
+  "homepage": "https://github.com/usrivastava92/insomnia-plugin-atlassian-asap-slauth#readme",
+  "insomnia": {
+    "name": "Atlassian ASAP/SLAUTH",
+    "description": "Generate Atlassian ASAP and SLAUTH tokens seamlessly",
+    "images": {
+      "icon": "icon.png",
+      "cover": "cover.png"
+    },
+    "publisher": {
+      "name": "Utkarsh Srivastava",
+      "icon": "https://avatars.githubusercontent.com/u/22717147?s=400&u=a4eda4f8f3cdf2e443213f99b2b0be11faea117d&v=4"
+    },
+    "unlisted": false
+  },
+  "keywords": [
+    "insomnia",
+    "plugin",
+    "plugins",
+    "asap",
+    "slauth",
+    "atlassian"
+  ]
+}
