@@ -1,4 +1,4 @@
-# Insomnia Plugin - Shell command executor
+# Insomnia Plugin - Atlassian ASAP/SLAUTH Token Generator
 
 This is a plugin for [Insomnia](https://insomnia.rest) that enables you to generate Atlassian SLAUTH or ASAP tokens.
 Commands are executed using `child_process`.`exec`. ie., equivalent to `/bin/sh` `<cmd-specified>`
