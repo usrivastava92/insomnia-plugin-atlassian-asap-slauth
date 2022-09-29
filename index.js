@@ -1,6 +1,41 @@
 const {promisify} = require("util");
 const exec = promisify(require("child_process").exec);
 
+const defaultBinLocation = '/opt/atlassian/bin/atlas'
+
+async function getSlauthToken(audience, envType, slauthGroup) {
+    if (audience === null || audience === "") {
+        return "invalid value defined for `audience`"
+    }
+    if (envType === null || envType === "") {
+        return "invalid value defined for `envType`"
+    }
+    if (slauthGroup === null || slauthGroup === "") {
+        return "invalid value defined for `slauthGroup`"
+    }
+    return await executeCommandSafely(`${defaultBinLocation} slauth token --aud=${audience} -e ${envType} --groups=${slauthGroup}`);
+}
+
+async function getAsapToken(audience, asapConfigFilePath) {
+    if (audience === null || audience === "") {
+        return "invalid value defined for `audience`"
+    }
+    if (asapConfigFilePath === null || asapConfigFilePath === "") {
+        return "invalid value defined for `asapConfigFilePath`"
+    }
+    return await executeCommandSafely(`${defaultBinLocation} asap token --aud=${audience} -c ${asapConfigFilePath}`);
+}
+
+async function executeCommandSafely(cmd) {
+    try {
+        const result = await exec(cmd);
+        return result.stdout.trim();
+    } catch (failed) {
+        console.log("Command execution failed with " + failed);
+        return failed.stderr;
+    }
+}
+
 module.exports.templateTags = [
     {
         displayName: "asap/slauth",
@@ -50,36 +85,13 @@ module.exports.templateTags = [
             slauthGroup,
             asapConfigFilePath
         ) {
-            let cmd = "";
             if (tokenType === "slauth") {
-                if (audience === null || audience === "") {
-                    return "invalid value defined for `audience`"
-                }
-                if (envType === null || envType === "") {
-                    return "invalid value defined for `envType`"
-                }
-                if (slauthGroup === null || slauthGroup === "") {
-                    return "invalid value defined for `slauthGroup`"
-                }
-                cmd = `/opt/atlassian/bin/atlas slauth token --aud=${audience} -e ${envType} --groups=${slauthGroup}`;
-            } else if (tokenType === "asap") {
-                if (audience === null || audience === "") {
-                    return "invalid value defined for `audience`"
-                }
-                if (asapConfigFilePath === null || asapConfigFilePath === "") {
-                    return "invalid value defined for `asapConfigFilePath`"
-                }
-                cmd = `/opt/atlassian/bin/atlas asap token --aud=${audience} -c ${asapConfigFilePath}`;
-            } else {
-                return `unknown token type : ${tokenType}`;
+                return await getSlauthToken(audience, envType, slauthGroup)
             }
-            try {
-                const result = await exec(cmd);
-                return result.stdout.trim();
-            } catch (failed) {
-                console.log("Command execution failed with " + failed);
-                return failed.stderr;
+            if (tokenType === "asap") {
+                return await getAsapToken(audience, asapConfigFilePath)
             }
+            return `unknown token type : ${tokenType}`;
         },
     },
 ];
