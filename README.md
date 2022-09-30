@@ -5,7 +5,7 @@ Commands are executed using `child_process`.`exec`. ie., equivalent to `/bin/sh`
 
 ## Installation
 
-Install the `insomnia-plugin-atlassian-asap-slauth` plugin from Preferences > Plugins. or copying contents inside plugin folder.
+Go to _Insomnia > Preferences > Plugins_, type in `insomnia-plugin-atlassian-asap-slauth` and click Install Plugin.
 
 ## Usage
 Insert function either in headers or body either by typing `ctrl + space` or start type `{{`
