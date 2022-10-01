@@ -8,7 +8,7 @@
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=usrivastava92_insomnia-plugin-atlassian-asap-slauth&metric=alert_status)](https://sonarcloud.io/dashboard?id=usrivastava92_insomnia-plugin-atlassian-asap-slauth)
 
 This is a plugin for [Insomnia](https://insomnia.rest) that enables you to generate Atlassian SLAUTH or ASAP tokens.
-Commands are executed using `child_process`.`exec`. ie., equivalent to `/bin/sh` `<cmd-specified>`
+The plugin generates ASAP/SLAUTH tokens using  `atlas` CLI and commands are executed using `child_process`.`exec`.
 
 ## Installation
 
