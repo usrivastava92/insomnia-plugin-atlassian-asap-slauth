@@ -15,5 +15,15 @@
     "quotes": ["error", "double"],
     "semi": ["error", "always"],
     "prettier/prettier": "error"
-  }
+  },
+  "overrides": [
+    {
+      "files": [
+        "**/*.test.js"
+      ],
+      "env": {
+        "jest": true
+      }
+    }
+  ]
 }

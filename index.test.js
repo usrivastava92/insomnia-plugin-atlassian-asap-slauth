@@ -1,7 +1,6 @@
-const { run } = require("./index.js");
+const {run} = require("./index.js");
 
 describe("Test run", () => {
-
   test("Test run with slauth token type when envType not provided", async () => {
     const audience = "micros-service";
     const envType = "";
