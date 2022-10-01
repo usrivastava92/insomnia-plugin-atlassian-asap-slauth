@@ -5,6 +5,7 @@
 [![](https://img.shields.io/npm/v/insomnia-plugin-atlassian-asap-slauth.svg)](https://www.npmjs.com/package/insomnia-plugin-atlassian-asap-slauth)
 [![](https://img.shields.io/badge/insomnia-install%20plugin-purple.svg?color=6a57d5)](https://insomnia.rest/plugins/insomnia-plugin-atlassian-asap-slauth)
 ![Downloads](https://img.shields.io/npm/dm/insomnia-plugin-atlassian-asap-slauth)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=usrivastava92_insomnia-plugin-atlassian-asap-slauth&metric=alert_status)](https://sonarcloud.io/dashboard?id=usrivastava92_insomnia-plugin-atlassian-asap-slauth)
 
 This is a plugin for [Insomnia](https://insomnia.rest) that enables you to generate Atlassian SLAUTH or ASAP tokens.
 Commands are executed using `child_process`.`exec`. ie., equivalent to `/bin/sh` `<cmd-specified>`
