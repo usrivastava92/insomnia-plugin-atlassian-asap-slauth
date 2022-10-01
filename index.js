@@ -10,10 +10,7 @@ async function getSlauthToken(audience, envType, slauthGroup) {
     if (envType === null || envType === "") {
         return "invalid value defined for `envType`"
     }
-    if (slauthGroup === null || slauthGroup === "") {
-        return "invalid value defined for `slauthGroup`"
-    }
-    return await executeCommandSafely(`${defaultBinLocation} slauth token --aud=${audience} -e ${envType} --groups=${slauthGroup}`);
+    return await executeCommandSafely(`${defaultBinLocation} slauth token --aud=${audience} -e ${envType} ${slauthGroup ? `--groups=${slauthGroup}` : ''} `);
 }
 
 async function getAsapToken(audience, asapConfigFilePath) {
@@ -67,7 +64,7 @@ module.exports.templateTags = [
                 ],
             },
             {
-                displayName: "Slauth Group (mandatory if Type is SLAUTH)",
+                displayName: "Slauth Group",
                 help: "Provide the SLAUTH group which you want to use to generate the token",
                 type: "string",
             },
