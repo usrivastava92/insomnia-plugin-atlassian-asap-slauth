@@ -1,81 +1,73 @@
-const {run} = require("./index.js");
+const { run } = require("./index.js");
 
 jest.mock("child_process", () => {
   return {
-    execSync: (cmd) => cmd,
+    execSync: (cmd) => cmd
   };
 });
 
 describe("Test run", () => {
+
+  const defaultAudience = "service-name";
+  const defaultEnvType = "dev";
+  const defaultSlauthGroup = "slauth-group";
+  const defaultAsapConfig = "~/.asap-config";
+  const defaultContext = "";
+  const invalidValueList = ["", null, undefined];
+
   test("Test slauth token", () => {
-    const audience = "service-name";
-    const envType = "dev";
-    const slauthGroup = "slauth-group";
-    const tokenType = "slauth";
-    const output = run("", tokenType, audience, envType, slauthGroup, "");
+    const output = run(defaultContext, "slauth", defaultAudience, defaultEnvType, defaultSlauthGroup, defaultAsapConfig);
     expect(output).toBe(
-      `/opt/atlassian/bin/atlas slauth token --aud=${audience} -e ${envType} --groups=${slauthGroup}`,
+      `/opt/atlassian/bin/atlas slauth token --aud=${defaultAudience} -e ${defaultEnvType} --groups=${defaultSlauthGroup}`
     );
   });
 
-  test("Test run with slauth token type when envType not provided", () => {
-    const audience = "micros-service";
-    const envType = "";
-    const slauthGroup = "grp";
-    const tokenType = "slauth";
-    const output = run("", tokenType, audience, envType, slauthGroup, "");
-    expect(output).toBe("invalid value defined for `envType`");
+  test("Test run with slauth token type when envType is null/blank/undefined", () => {
+    invalidValueList.forEach(envType => {
+      let output = run(defaultContext, "slauth", defaultAudience, envType, defaultSlauthGroup, defaultAsapConfig);
+      expect(output).toBe("invalid value defined for `envType`");
+    });
   });
 
   test("Test run with slauth token type when invalid envType is provided", () => {
-    const audience = "micros-service";
-    const envType = "invalid";
-    const slauthGroup = "grp";
-    const tokenType = "slauth";
-    const output = run("", tokenType, audience, envType, slauthGroup, "");
+    const output = run(defaultContext, "slauth", defaultAudience, "invalid", defaultSlauthGroup, defaultAsapConfig);
     expect(output).toBe("invalid value defined for `envType`");
   });
 
-  test("Test run with slauth token type when audience not provided", () => {
-    const audience = "";
-    const envType = "staging";
-    const slauthGroup = "grp";
-    const tokenType = "slauth";
-    const output = run("", tokenType, audience, envType, slauthGroup, "");
-    expect(output).toBe(
-      `invalid value defined for \`audience\` : \`${audience}\``,
-    );
+  test("Test run with slauth token type when audience is null/blank/undefined", () => {
+    invalidValueList.forEach(audience => {
+      const output = run(defaultContext, "slauth", audience, defaultEnvType, defaultSlauthGroup, defaultAsapConfig);
+      expect(output).toBe(
+        `invalid value defined for \`audience\` : \`${audience}\``
+      );
+    });
   });
 
   test("Test asap token", () => {
-    const audience = "service-name";
-    const tokenType = "asap";
-    const asapConfigFilePath = "~/.asap-config";
-    const output = run("", tokenType, audience, "", "", asapConfigFilePath);
+    const output = run(defaultContext, "asap", defaultAudience, defaultEnvType, defaultSlauthGroup, defaultAsapConfig);
     expect(output).toBe(
-      `/opt/atlassian/bin/atlas asap token --aud=${audience} -c ${asapConfigFilePath}`,
+      `/opt/atlassian/bin/atlas asap token --aud=${defaultAudience} -c ${defaultAsapConfig}`
     );
   });
 
-  test("Test run with asap token type when asapConfigFilePath is not provided", () => {
-    const audience = "aud";
-    const tokenType = "asap";
-    const output = run("", tokenType, audience, "", "", "");
-    expect(output).toBe("invalid value defined for `asapConfigFilePath`");
+  test("Test run with asap token type when asapConfigFilePath is null/blank/undefined", () => {
+    invalidValueList.forEach(asapConfigFilePath => {
+      const output = run(defaultContext, "asap", defaultAudience, defaultEnvType, defaultSlauthGroup, asapConfigFilePath);
+      expect(output).toBe("invalid value defined for `asapConfigFilePath`");
+    });
   });
 
   test("Test run with asap token type when audience is not provided", () => {
-    const asapConfigFilePath = "grp";
-    const tokenType = "asap";
-    const audience = "";
-    const output = run("", tokenType, audience, "", "", asapConfigFilePath);
-    expect(output).toBe(
-      `invalid value defined for \`audience\` : \`${audience}\``,
-    );
+    invalidValueList.forEach(audience => {
+      const output = run(defaultContext, "asap", audience, defaultEnvType, defaultSlauthGroup, defaultAsapConfig);
+      expect(output).toBe(
+        `invalid value defined for \`audience\` : \`${audience}\``
+      );
+    });
   });
 
   test("Test run with invalid token type", () => {
-    const output = run("", "invalid", "aud", "", "", "");
+    const output = run(defaultContext, "invalid", defaultAudience, defaultEnvType, defaultSlauthGroup, defaultAsapConfig);
     expect(output).toBe("unknown token type : invalid");
   });
 });
