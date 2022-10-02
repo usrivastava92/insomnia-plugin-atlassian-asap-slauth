@@ -5,7 +5,7 @@
 [![Insomnia Plugin Hub](https://img.shields.io/badge/insomnia-install%20plugin-purple.svg?color=6a57d5)](https://insomnia.rest/plugins/insomnia-plugin-atlassian-asap-slauth)
 [![Downloads](https://img.shields.io/npm/dm/insomnia-plugin-atlassian-asap-slauth)](https://www.npmjs.com/package/insomnia-plugin-atlassian-asap-slauth)
 [![SonarCloud Quality Gate](https://sonarcloud.io/api/project_badges/measure?project=usrivastava92_insomnia-plugin-atlassian-asap-slauth&metric=alert_status)](https://sonarcloud.io/dashboard?id=usrivastava92_insomnia-plugin-atlassian-asap-slauth)
-[![SonarCloud Coverage](https://sonarcloud.io/api/project_badges/measure?project=usrivastava92_insomnia-plugin-atlassian-asap-slauth&metric=coverage)](https://sonarcloud.io/component_measures/metric/coverage/list?id=usrivastava92_insomnia-plugin-atlassian-asap-slauth)
+[![SonarCloud Coverage](https://sonarcloud.io/api/project_badges/measure?project=usrivastava92_insomnia-plugin-atlassian-asap-slauth&metric=coverage)](https://sonarcloud.io/component_measures?id=usrivastava92_insomnia-plugin-atlassian-asap-slauth&metric=new_coverage&view=list)
 
 ## Intro
 
