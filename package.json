@@ -21,7 +21,7 @@
   "scripts": {
     "lint": "eslint index.js index.test.js",
     "lint-fix": "eslint index.js index.test.js --fix",
-    "test": "jest"
+    "test": "jest --coverage"
   },
   "main": "index.js",
   "homepage": "https://github.com/usrivastava92/insomnia-plugin-atlassian-asap-slauth#readme",
