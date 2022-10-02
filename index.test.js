@@ -42,7 +42,9 @@ describe("Test run", () => {
     const slauthGroup = "grp";
     const tokenType = "slauth";
     const output = run("", tokenType, audience, envType, slauthGroup, "");
-    expect(output).toBe("invalid value defined for `audience`");
+    expect(output).toBe(
+      `invalid value defined for \`audience\` : \`${audience}\``,
+    );
   });
 
   test("Test asap token", () => {
@@ -65,8 +67,11 @@ describe("Test run", () => {
   test("Test run with asap token type when audience is not provided", () => {
     const asapConfigFilePath = "grp";
     const tokenType = "asap";
-    const output = run("", tokenType, "", "", "", asapConfigFilePath);
-    expect(output).toBe("invalid value defined for `audience`");
+    const audience = "";
+    const output = run("", tokenType, audience, "", "", asapConfigFilePath);
+    expect(output).toBe(
+      `invalid value defined for \`audience\` : \`${audience}\``,
+    );
   });
 
   test("Test run with invalid token type", () => {

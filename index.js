@@ -43,7 +43,7 @@ const run = (
   asapConfigFilePath,
 ) => {
   if (isNullUndefinedOrBlank(audience)) {
-    return "invalid value defined for `audience`";
+    return `invalid value defined for \`audience\` : \`${audience}\``;
   }
   if (tokenType === "slauth") {
     return getSlauthToken(audience, envType, slauthGroup);
