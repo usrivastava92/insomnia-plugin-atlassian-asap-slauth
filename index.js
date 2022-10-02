@@ -1,51 +1,50 @@
-const {promisify} = require("util");
-const exec = promisify(require("child_process").exec);
+const {execSync} = require("child_process");
 
-const defaultBinLocation = "/opt/atlassian/bin/atlas";
-const validEnvTypesSet = new Set(["dev", "staging", "prod"]);
-
-async function getSlauthToken(audience, envType, slauthGroup) {
-  if (audience === null || audience === "") {
-    return "invalid value defined for `audience`";
+const execSyncSafely = (cmd) => {
+  try {
+    return execSync(cmd).toString().trim();
+  } catch (failed) {
+    return failed;
   }
+};
+
+const validEnvTypesSet = new Set(["dev", "staging", "prod"]);
+const getAtlasBinPath = "/opt/atlassian/bin/atlas";
+
+const isNullUndefinedOrBlank = (value) => {
+  return value === null || value === undefined || value === "";
+};
+
+const getSlauthToken = (audience, envType, slauthGroup) => {
   if (!validEnvTypesSet.has(envType)) {
     return "invalid value defined for `envType`";
   }
   const groupArgument = slauthGroup ? `--groups=${slauthGroup}` : "";
-  return executeCommandSafely(
-    `${defaultBinLocation} slauth token --aud=${audience} -e ${envType} ${groupArgument} `,
+  return execSyncSafely(
+    `${getAtlasBinPath} slauth token --aud=${audience} -e ${envType} ${groupArgument} `,
   );
-}
+};
 
-async function getAsapToken(audience, asapConfigFilePath) {
-  if (audience === null || audience === "") {
-    return "invalid value defined for `audience`";
-  }
-  if (asapConfigFilePath === null || asapConfigFilePath === "") {
+const getAsapToken = (audience, asapConfigFilePath) => {
+  if (isNullUndefinedOrBlank(asapConfigFilePath)) {
     return "invalid value defined for `asapConfigFilePath`";
   }
-  return executeCommandSafely(
-    `${defaultBinLocation} asap token --aud=${audience} -c ${asapConfigFilePath}`,
+  return execSyncSafely(
+    `${getAtlasBinPath} asap token --aud=${audience} -c ${asapConfigFilePath}`,
   );
-}
+};
 
-async function executeCommandSafely(cmd) {
-  try {
-    const result = await exec(cmd);
-    return result.stdout.trim();
-  } catch (failed) {
-    return failed.stderr;
-  }
-}
-
-async function run(
+const run = (
   context,
   tokenType,
   audience,
   envType,
   slauthGroup,
   asapConfigFilePath,
-) {
+) => {
+  if (isNullUndefinedOrBlank(audience)) {
+    return "invalid value defined for `audience`";
+  }
   if (tokenType === "slauth") {
     return getSlauthToken(audience, envType, slauthGroup);
   }
@@ -53,7 +52,7 @@ async function run(
     return getAsapToken(audience, asapConfigFilePath);
   }
   return `unknown token type : ${tokenType}`;
-}
+};
 
 const templateTags = [
   {
@@ -69,11 +68,13 @@ const templateTags = [
           {displayName: "slauth", value: "slauth"},
           {displayName: "asap", value: "asap"},
         ],
+        defaultValue: "slauth",
       },
       {
         displayName: "Audience (mandatory)",
         help: "Specify audience for your asap/slauth",
         type: "string",
+        placeholder: "Specify audience for your asap/slauth",
       },
       {
         displayName: "Environment Type (mandatory if Type is SLAUTH)",
@@ -84,16 +85,19 @@ const templateTags = [
           {displayName: "staging", value: "staging"},
           {displayName: "prod", value: "prod"},
         ],
+        defaultValue: "dev",
       },
       {
         displayName: "Slauth Group",
         help: "Provide the SLAUTH group which you want to use to generate the slauth token",
         type: "string",
+        placeholder: "micros-sv--{{serviceName}}-dl-admins",
       },
       {
         displayName: "Asap Config File Path (mandatory if Type is ASAP)",
         help: "Specify the path to your ~/.asap-config file. This file will be used to fetch you asap credentials such as KeyId, PrivateKey, etc",
         type: "string",
+        placeholder: "~/.asap-config",
       },
     ],
     run,
@@ -102,6 +106,6 @@ const templateTags = [
 
 module.exports.templateTags = templateTags;
 module.exports.run = run;
-module.exports.executeCommandSafely = executeCommandSafely;
 module.exports.getAsapToken = getAsapToken;
 module.exports.getSlauthToken = getSlauthToken;
+module.exports.execSyncSafely = execSyncSafely;
