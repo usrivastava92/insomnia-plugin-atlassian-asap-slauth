@@ -1,6 +1,6 @@
 # Insomnia Plugin - Atlassian ASAP/SLAUTH Token Generator
 
-![Build Status](https://img.shields.io/github/workflow/status/usrivastava92/insomnia-plugin-atlassian-asap-slauth/Node.js%20CI)
+[![Build Status](https://img.shields.io/github/workflow/status/usrivastava92/insomnia-plugin-atlassian-asap-slauth/Node.js%20CI)](https://github.com/usrivastava92/insomnia-plugin-atlassian-asap-slauth/actions)
 [![License](https://img.shields.io/github/license/usrivastava92/insomnia-plugin-atlassian-asap-slauth)](https://github.com/usrivastava92/insomnia-plugin-atlassian-asap-slauth/blob/master/LICENSE)
 [![Insomnia Plugin Hub](https://img.shields.io/badge/insomnia-install%20plugin-purple.svg?color=6a57d5)](https://insomnia.rest/plugins/insomnia-plugin-atlassian-asap-slauth)
 [![Downloads](https://img.shields.io/npm/dm/insomnia-plugin-atlassian-asap-slauth)](https://www.npmjs.com/package/insomnia-plugin-atlassian-asap-slauth)
