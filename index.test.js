@@ -1,10 +1,12 @@
 const {run} = require("./index.js");
 
-jest.mock("child_process", () => {
-  return {
-    execSync: (cmd) => cmd,
-  };
-});
+jest.mock("child_process");
+
+const child_process = require("child_process")
+
+beforeEach(() => {
+  child_process.execSync.mockImplementation((cmd) => cmd)
+})
 
 describe("Test run", () => {
   const defaultAudience = "service-name";
@@ -26,6 +28,41 @@ describe("Test run", () => {
     expect(output).toBe(
       `/opt/atlassian/bin/atlas slauth token --aud=${defaultAudience} -e ${defaultEnvType} --groups=${defaultSlauthGroup}`,
     );
+  });
+
+  test("Test slauth token when no group provided", () => {
+    invalidValueList.forEach((slauthGroup) => {
+      const output = run(
+        defaultContext,
+        "slauth",
+        defaultAudience,
+        defaultEnvType,
+        slauthGroup,
+        defaultAsapConfig,
+      );
+      expect(output).toBe(
+        `/opt/atlassian/bin/atlas slauth token --aud=${defaultAudience} -e ${defaultEnvType}`,
+      );
+    })
+  });
+
+  test("Test command execution failure", () => {
+    child_process.execSync.mockImplementation((cmd) => {
+      throw new Error(`execution failed : ${cmd}`)
+    })
+    invalidValueList.forEach((slauthGroup) => {
+      const output = run(
+        defaultContext,
+        "slauth",
+        defaultAudience,
+        defaultEnvType,
+        slauthGroup,
+        defaultAsapConfig,
+      );
+      expect(output).toBe(
+        `Error: execution failed : /opt/atlassian/bin/atlas slauth token --aud=${defaultAudience} -e ${defaultEnvType}`,
+      );
+    })
   });
 
   test("Test run with slauth token type when envType is null/blank/undefined", () => {

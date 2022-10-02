@@ -4,7 +4,7 @@ const execSyncSafely = (cmd) => {
   try {
     return execSync(cmd).toString().trim();
   } catch (failed) {
-    return failed;
+    return failed.toString().trim();
   }
 };
 
@@ -19,9 +19,9 @@ const getSlauthToken = (audience, envType, slauthGroup) => {
   if (!validEnvTypesSet.has(envType)) {
     return "invalid value defined for `envType`";
   }
-  const groupArgument = slauthGroup ? `--groups=${slauthGroup}` : "";
+  const groupArgument = isNullUndefinedOrBlank(slauthGroup) ? "" : `--groups=${slauthGroup}`;
   return execSyncSafely(
-    `${getAtlasBinPath} slauth token --aud=${audience} -e ${envType} ${groupArgument} `,
+    `${getAtlasBinPath} slauth token --aud=${audience} -e ${envType} ${groupArgument}`,
   );
 };
 
