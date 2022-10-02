@@ -4,11 +4,22 @@
 ![License](https://img.shields.io/github/license/usrivastava92/insomnia-plugin-atlassian-asap-slauth)
 [![Insomnia Plugin Hub](https://img.shields.io/badge/insomnia-install%20plugin-purple.svg?color=6a57d5)](https://insomnia.rest/plugins/insomnia-plugin-atlassian-asap-slauth)
 ![Downloads](https://img.shields.io/npm/dm/insomnia-plugin-atlassian-asap-slauth)
-
 [![SonarCloud Quality Gate](https://sonarcloud.io/api/project_badges/measure?project=usrivastava92_insomnia-plugin-atlassian-asap-slauth&metric=alert_status)](https://sonarcloud.io/dashboard?id=usrivastava92_insomnia-plugin-atlassian-asap-slauth)
+
+## Sonar
+
 [![SonarCloud Coverage](https://sonarcloud.io/api/project_badges/measure?project=usrivastava92_insomnia-plugin-atlassian-asap-slauth&metric=coverage)](https://sonarcloud.io/component_measures/metric/coverage/list?id=usrivastava92_insomnia-plugin-atlassian-asap-slauth)
+[![Duplicated Lines (%)](https://sonarcloud.io/api/project_badges/measure?project=usrivastava92_insomnia-plugin-atlassian-asap-slauth&metric=duplicated_lines_density)](https://sonarcloud.io/dashboard?id=usrivastava92_insomnia-plugin-atlassian-asap-slauth)
+[![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=usrivastava92_insomnia-plugin-atlassian-asap-slauth&metric=ncloc)](https://sonarcloud.io/dashboard?id=usrivastava92_insomnia-plugin-atlassian-asap-slauth)
+[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=usrivastava92_insomnia-plugin-atlassian-asap-slauth&metric=sqale_rating)](https://sonarcloud.io/dashboard?id=usrivastava92_insomnia-plugin-atlassian-asap-slauth)
+[![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=usrivastava92_insomnia-plugin-atlassian-asap-slauth&metric=reliability_rating)](https://sonarcloud.io/dashboard?id=usrivastava92_insomnia-plugin-atlassian-asap-slauth)
+[![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=usrivastava92_insomnia-plugin-atlassian-asap-slauth&metric=security_rating)](https://sonarcloud.io/dashboard?id=usrivastava92_insomnia-plugin-atlassian-asap-slauth)
 [![SonarCloud Bugs](https://sonarcloud.io/api/project_badges/measure?project=usrivastava92_insomnia-plugin-atlassian-asap-slauth&metric=bugs)](https://sonarcloud.io/component_measures/metric/reliability_rating/list?id=usrivastava92_insomnia-plugin-atlassian-asap-slauth)
 [![SonarCloud Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=usrivastava92_insomnia-plugin-atlassian-asap-slauth&metric=vulnerabilities)](https://sonarcloud.io/component_measures/metric/security_rating/list?id=usrivastava92_insomnia-plugin-atlassian-asap-slauth)
+[![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=usrivastava92_insomnia-plugin-atlassian-asap-slauth&metric=code_smells)](https://sonarcloud.io/dashboard?id=usrivastava92_insomnia-plugin-atlassian-asap-slauth)
+[![Technical Debt](https://sonarcloud.io/api/project_badges/measure?project=usrivastava92_insomnia-plugin-atlassian-asap-slauth&metric=sqale_index)](https://sonarcloud.io/dashboard?id=usrivastava92_insomnia-plugin-atlassian-asap-slauth)
+
+## Intro
 
 This is a plugin for [Insomnia](https://insomnia.rest) that enables you to generate Atlassian SLAUTH or ASAP tokens.
 The plugin generates ASAP/SLAUTH tokens using  `atlas` CLI and commands are executed using `child_process`.`exec`.
