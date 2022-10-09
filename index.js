@@ -1,10 +1,14 @@
-const {execSync} = require("child_process");
+const {promisify} = require("util");
+const {exec} = require("child_process");
 
-const execSyncSafely = (cmd) => {
+const promisifyExec = promisify(exec);
+
+const execSafely = async (cmd) => {
   try {
-    return execSync(cmd).toString().trim();
+    const output = await promisifyExec(cmd);
+    return output.stdout.trim();
   } catch (failed) {
-    return failed.toString().trim();
+    return failed.stderr.trim();
   }
 };
 
@@ -15,28 +19,28 @@ const isNullUndefinedOrBlank = (value) => {
   return value === null || value === undefined || value === "";
 };
 
-const getSlauthToken = (audience, envType, slauthGroup) => {
+const getSlauthToken = async (audience, envType, slauthGroup) => {
   if (!validEnvTypesSet.has(envType)) {
     return "invalid value defined for `envType`";
   }
   const groupArgument = isNullUndefinedOrBlank(slauthGroup)
     ? ""
     : `--groups=${slauthGroup}`;
-  return execSyncSafely(
+  return execSafely(
     `${getAtlasBinPath} slauth token --aud=${audience} -e ${envType} ${groupArgument}`,
   );
 };
 
-const getAsapToken = (audience, asapConfigFilePath) => {
+const getAsapToken = async (audience, asapConfigFilePath) => {
   if (isNullUndefinedOrBlank(asapConfigFilePath)) {
     return "invalid value defined for `asapConfigFilePath`";
   }
-  return execSyncSafely(
+  return execSafely(
     `${getAtlasBinPath} asap token --aud=${audience} -c ${asapConfigFilePath}`,
   );
 };
 
-const run = (
+const run = async (
   context,
   tokenType,
   audience,
@@ -110,4 +114,4 @@ module.exports.templateTags = templateTags;
 module.exports.run = run;
 module.exports.getAsapToken = getAsapToken;
 module.exports.getSlauthToken = getSlauthToken;
-module.exports.execSyncSafely = execSyncSafely;
+module.exports.execSafely = execSafely;
