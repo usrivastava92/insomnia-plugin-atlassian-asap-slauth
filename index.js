@@ -36,7 +36,9 @@ const getAsapToken = async (audience, asapConfigFilePath, additionalClaims) => {
     return "invalid value defined for `asapConfigFilePath`";
   }
 
-  const additionalClaimsArg = additionalClaims ? `--additional-claims='${additionalClaims}'` : '';
+  const additionalClaimsArg = additionalClaims
+    ? `--additional-claims='${additionalClaims}'`
+    : "";
 
   return execSafely(
     `${getAtlasBinPath} asap token --aud=${audience} -c ${asapConfigFilePath} ${additionalClaimsArg}`,
@@ -113,7 +115,7 @@ const templateTags = [
         displayName: "Additional Claims",
         help: "Provide additional claims for the ASAP token",
         type: "string",
-        placeholder: `{ "claim": "value" }`,
+        placeholder: "",
       },
     ],
     run,
