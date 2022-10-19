@@ -31,12 +31,17 @@ const getSlauthToken = async (audience, envType, slauthGroup) => {
   );
 };
 
-const getAsapToken = async (audience, asapConfigFilePath) => {
+const getAsapToken = async (audience, asapConfigFilePath, additionalClaims) => {
   if (isNullUndefinedOrBlank(asapConfigFilePath)) {
     return "invalid value defined for `asapConfigFilePath`";
   }
+
+  const additionalClaimsArg = additionalClaims
+    ? `--additional-claims='${additionalClaims}'`
+    : "";
+
   return execSafely(
-    `${getAtlasBinPath} asap token --aud=${audience} -c ${asapConfigFilePath}`,
+    `${getAtlasBinPath} asap token --aud=${audience} -c ${asapConfigFilePath} ${additionalClaimsArg}`,
   );
 };
 
@@ -47,6 +52,7 @@ const run = async (
   envType,
   slauthGroup,
   asapConfigFilePath,
+  additionalClaims,
 ) => {
   if (isNullUndefinedOrBlank(audience)) {
     return `invalid value defined for \`audience\` : \`${audience}\``;
@@ -55,7 +61,7 @@ const run = async (
     return getSlauthToken(audience, envType, slauthGroup);
   }
   if (tokenType === "asap") {
-    return getAsapToken(audience, asapConfigFilePath);
+    return getAsapToken(audience, asapConfigFilePath, additionalClaims);
   }
   return `unknown token type : ${tokenType}`;
 };
@@ -104,6 +110,12 @@ const templateTags = [
         help: "Specify the path to your ~/.asap-config file. This file will be used to fetch you asap credentials such as KeyId, PrivateKey, etc",
         type: "string",
         placeholder: "~/.asap-config",
+      },
+      {
+        displayName: "Additional Claims",
+        help: "Provide additional claims for the ASAP token",
+        type: "string",
+        placeholder: "",
       },
     ],
     run,
