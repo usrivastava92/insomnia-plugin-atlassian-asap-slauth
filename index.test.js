@@ -139,7 +139,7 @@ describe("Test run", () => {
   });
 
   test("Test asap when additional claims are provided", async () => {
-    const additionalClaims = "exp=123433233"
+    const additionalClaims = "exp=123433233";
     const output = await run(
       defaultContext,
       "asap",
@@ -147,9 +147,11 @@ describe("Test run", () => {
       defaultEnvType,
       defaultSlauthGroup,
       defaultAsapConfig,
-      additionalClaims
+      additionalClaims,
     );
-    expect(output).toBe("/opt/atlassian/bin/atlas asap token --aud=service-name -c ~/.asap-config --additional-claims='exp=123433233'");
+    expect(output).toBe(
+      "/opt/atlassian/bin/atlas asap token --aud=service-name -c ~/.asap-config --additional-claims='exp=123433233'",
+    );
   });
 
   test("Test run with asap token type when audience is not provided", async () => {
