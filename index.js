@@ -119,7 +119,7 @@ const templateTags = [
         displayName: "Additional Claims",
         help: "Provide additional claims for the ASAP token",
         type: "string",
-        placeholder: "",
+        placeholder: "additionalClaim1=value1,additionalClaim2=value2",
       },
       {
         displayName: "Atlas binary location",
