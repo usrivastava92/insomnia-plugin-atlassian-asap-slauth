@@ -181,4 +181,32 @@ describe("Test run", () => {
     );
     expect(output).toBe("unknown token type : invalid");
   });
+
+  test("Test slauth when atlas bin location is provided", async () => {
+    const output = await run(
+      defaultContext,
+      "slauth",
+      defaultAudience,
+      defaultEnvType,
+      defaultSlauthGroup,
+      defaultAsapConfig,
+      "",
+      '/some/location/atlas'
+    );
+    expect(output).toBe("/some/location/atlas slauth token --aud=service-name -e dev --groups=slauth-group");
+  });
+
+  test("Test asap when atlas bin location is provided", async () => {
+    const output = await run(
+      defaultContext,
+      "asap",
+      defaultAudience,
+      defaultEnvType,
+      defaultSlauthGroup,
+      defaultAsapConfig,
+      "",
+      '/some/location/atlas'
+    );
+    expect(output).toBe("/some/location/atlas asap token --aud=service-name -c ~/.asap-config");
+  });
 });

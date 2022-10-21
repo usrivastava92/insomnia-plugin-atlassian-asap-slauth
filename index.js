@@ -1,5 +1,5 @@
 const {promisify} = require("util");
-const {exec} = require("child_process");
+const {exec, execSync} = require("child_process");
 
 const promisifyExec = promisify(exec);
 
@@ -13,13 +13,13 @@ const execSafely = async (cmd) => {
 };
 
 const validEnvTypesSet = new Set(["dev", "staging", "prod"]);
-const getAtlasBinPath = "/opt/atlassian/bin/atlas";
+const defaultAtlasBinPath = "/opt/atlassian/bin/atlas";
 
 const isNullUndefinedOrBlank = (value) => {
   return value === null || value === undefined || value === "";
 };
 
-const getSlauthToken = async (audience, envType, slauthGroup) => {
+const getSlauthToken = async (audience, envType, slauthGroup, atlasBinLocation) => {
   if (!validEnvTypesSet.has(envType)) {
     return "invalid value defined for `envType`";
   }
@@ -27,11 +27,11 @@ const getSlauthToken = async (audience, envType, slauthGroup) => {
     ? ""
     : `--groups=${slauthGroup}`;
   return execSafely(
-    `${getAtlasBinPath} slauth token --aud=${audience} -e ${envType} ${groupArgument}`,
+    `${atlasBinLocation} slauth token --aud=${audience} -e ${envType} ${groupArgument}`,
   );
 };
 
-const getAsapToken = async (audience, asapConfigFilePath, additionalClaims) => {
+const getAsapToken = async (audience, asapConfigFilePath, additionalClaims, atlasBinLocation) => {
   if (isNullUndefinedOrBlank(asapConfigFilePath)) {
     return "invalid value defined for `asapConfigFilePath`";
   }
@@ -41,7 +41,7 @@ const getAsapToken = async (audience, asapConfigFilePath, additionalClaims) => {
     : "";
 
   return execSafely(
-    `${getAtlasBinPath} asap token --aud=${audience} -c ${asapConfigFilePath} ${additionalClaimsArg}`,
+    `${atlasBinLocation} asap token --aud=${audience} -c ${asapConfigFilePath} ${additionalClaimsArg}`,
   );
 };
 
@@ -53,15 +53,19 @@ const run = async (
   slauthGroup,
   asapConfigFilePath,
   additionalClaims,
+  atlasBinaryLocation
 ) => {
   if (isNullUndefinedOrBlank(audience)) {
     return `invalid value defined for \`audience\` : \`${audience}\``;
   }
+  if (isNullUndefinedOrBlank(atlasBinaryLocation)) {
+    atlasBinaryLocation = defaultAtlasBinPath;
+  }
   if (tokenType === "slauth") {
-    return getSlauthToken(audience, envType, slauthGroup);
+    return getSlauthToken(audience, envType, slauthGroup, atlasBinaryLocation);
   }
   if (tokenType === "asap") {
-    return getAsapToken(audience, asapConfigFilePath, additionalClaims);
+    return getAsapToken(audience, asapConfigFilePath, additionalClaims, atlasBinaryLocation);
   }
   return `unknown token type : ${tokenType}`;
 };
@@ -117,6 +121,12 @@ const templateTags = [
         type: "string",
         placeholder: "",
       },
+      {
+        displayName: "Atlas binary location",
+        help: "Required if your atlas binary location is not /opt/atlassian/bin/atlas",
+        type: "string",
+        placeholder: "/opt/atlassian/bin/atlas",
+      }
     ],
     run,
   },
