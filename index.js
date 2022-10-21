@@ -124,6 +124,3 @@ const templateTags = [
 
 module.exports.templateTags = templateTags;
 module.exports.run = run;
-module.exports.getAsapToken = getAsapToken;
-module.exports.getSlauthToken = getSlauthToken;
-module.exports.execSafely = execSafely;
