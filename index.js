@@ -1,5 +1,5 @@
 const {promisify} = require("util");
-const {exec, execSync} = require("child_process");
+const {exec} = require("child_process");
 
 const promisifyExec = promisify(exec);
 
@@ -19,7 +19,12 @@ const isNullUndefinedOrBlank = (value) => {
   return value === null || value === undefined || value === "";
 };
 
-const getSlauthToken = async (audience, envType, slauthGroup, atlasBinLocation) => {
+const getSlauthToken = async (
+  audience,
+  envType,
+  slauthGroup,
+  atlasBinLocation,
+) => {
   if (!validEnvTypesSet.has(envType)) {
     return "invalid value defined for `envType`";
   }
@@ -31,7 +36,12 @@ const getSlauthToken = async (audience, envType, slauthGroup, atlasBinLocation) 
   );
 };
 
-const getAsapToken = async (audience, asapConfigFilePath, additionalClaims, atlasBinLocation) => {
+const getAsapToken = async (
+  audience,
+  asapConfigFilePath,
+  additionalClaims,
+  atlasBinLocation,
+) => {
   if (isNullUndefinedOrBlank(asapConfigFilePath)) {
     return "invalid value defined for `asapConfigFilePath`";
   }
@@ -53,7 +63,7 @@ const run = async (
   slauthGroup,
   asapConfigFilePath,
   additionalClaims,
-  atlasBinaryLocation
+  atlasBinaryLocation,
 ) => {
   if (isNullUndefinedOrBlank(audience)) {
     return `invalid value defined for \`audience\` : \`${audience}\``;
@@ -65,7 +75,12 @@ const run = async (
     return getSlauthToken(audience, envType, slauthGroup, atlasBinaryLocation);
   }
   if (tokenType === "asap") {
-    return getAsapToken(audience, asapConfigFilePath, additionalClaims, atlasBinaryLocation);
+    return getAsapToken(
+      audience,
+      asapConfigFilePath,
+      additionalClaims,
+      atlasBinaryLocation,
+    );
   }
   return `unknown token type : ${tokenType}`;
 };
@@ -126,7 +141,7 @@ const templateTags = [
         help: "Required if your atlas binary location is not /opt/atlassian/bin/atlas",
         type: "string",
         placeholder: "/opt/atlassian/bin/atlas",
-      }
+      },
     ],
     run,
   },

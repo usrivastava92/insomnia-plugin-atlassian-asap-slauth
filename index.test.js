@@ -191,9 +191,11 @@ describe("Test run", () => {
       defaultSlauthGroup,
       defaultAsapConfig,
       "",
-      '/some/location/atlas'
+      "/some/location/atlas",
     );
-    expect(output).toBe("/some/location/atlas slauth token --aud=service-name -e dev --groups=slauth-group");
+    expect(output).toBe(
+      "/some/location/atlas slauth token --aud=service-name -e dev --groups=slauth-group",
+    );
   });
 
   test("Test asap when atlas bin location is provided", async () => {
@@ -205,8 +207,10 @@ describe("Test run", () => {
       defaultSlauthGroup,
       defaultAsapConfig,
       "",
-      '/some/location/atlas'
+      "/some/location/atlas",
     );
-    expect(output).toBe("/some/location/atlas asap token --aud=service-name -c ~/.asap-config");
+    expect(output).toBe(
+      "/some/location/atlas asap token --aud=service-name -c ~/.asap-config",
+    );
   });
 });
