@@ -1,5 +1,5 @@
-const { promisify } = require("util");
-const { exec } = require("child_process");
+const {promisify} = require("util");
+const {exec} = require("child_process");
 
 const promisifyExec = promisify(exec);
 
@@ -23,7 +23,7 @@ const getSlauthToken = async (
   audience,
   envType,
   slauthGroup,
-  atlasBinLocation
+  atlasBinLocation,
 ) => {
   if (!validEnvTypesSet.has(envType)) {
     return "invalid value defined for `envType`";
@@ -32,7 +32,7 @@ const getSlauthToken = async (
     ? ""
     : `--groups=${slauthGroup}`;
   return execSafely(
-    `${atlasBinLocation} slauth token --aud=${audience} -e ${envType} ${groupArgument}`
+    `${atlasBinLocation} slauth token --aud=${audience} -e ${envType} ${groupArgument}`,
   );
 };
 
@@ -40,7 +40,7 @@ const getAsapToken = async (
   audience,
   asapConfigFilePath,
   additionalClaims,
-  atlasBinLocation
+  atlasBinLocation,
 ) => {
   if (isNullUndefinedOrBlank(asapConfigFilePath)) {
     return "invalid value defined for `asapConfigFilePath`";
@@ -51,7 +51,7 @@ const getAsapToken = async (
     : "";
 
   return execSafely(
-    `${atlasBinLocation} asap token --aud=${audience} -c ${asapConfigFilePath} ${additionalClaimsArg}`
+    `${atlasBinLocation} asap token --aud=${audience} -c ${asapConfigFilePath} ${additionalClaimsArg}`,
   );
 };
 
@@ -62,7 +62,9 @@ const run = async (...args) => {
   const slauthGroup = args[4];
   const asapConfigFilePath = args[5];
   const additionalClaims = args[6];
-  const atlasBinaryLocation = isNullUndefinedOrBlank(args[7]) ? defaultAtlasBinPath : args[7];
+  const atlasBinaryLocation = isNullUndefinedOrBlank(args[7])
+    ? defaultAtlasBinPath
+    : args[7];
   if (isNullUndefinedOrBlank(audience)) {
     return `invalid value defined for \`audience\` : \`${audience}\``;
   }
@@ -74,7 +76,7 @@ const run = async (...args) => {
       audience,
       asapConfigFilePath,
       additionalClaims,
-      atlasBinaryLocation
+      atlasBinaryLocation,
     );
   }
   return `unknown token type : ${tokenType}`;
@@ -91,55 +93,55 @@ const templateTags = [
         help: "Select the token type",
         type: "enum",
         options: [
-          { displayName: "slauth", value: "slauth" },
-          { displayName: "asap", value: "asap" }
+          {displayName: "slauth", value: "slauth"},
+          {displayName: "asap", value: "asap"},
         ],
-        defaultValue: "slauth"
+        defaultValue: "slauth",
       },
       {
         displayName: "Audience (mandatory)",
         help: "Specify audience for your asap/slauth",
         type: "string",
-        placeholder: "Specify audience for your asap/slauth"
+        placeholder: "Specify audience for your asap/slauth",
       },
       {
         displayName: "Environment Type (mandatory if Type is SLAUTH)",
         help: "Select the environment for which you want to generate slauth token",
         type: "enum",
         options: [
-          { displayName: "dev", value: "dev" },
-          { displayName: "staging", value: "staging" },
-          { displayName: "prod", value: "prod" }
+          {displayName: "dev", value: "dev"},
+          {displayName: "staging", value: "staging"},
+          {displayName: "prod", value: "prod"},
         ],
-        defaultValue: "dev"
+        defaultValue: "dev",
       },
       {
         displayName: "Slauth Group",
         help: "Provide the SLAUTH group which you want to use to generate the slauth token",
         type: "string",
-        placeholder: "micros-sv--{{serviceName}}-dl-admins"
+        placeholder: "micros-sv--{{serviceName}}-dl-admins",
       },
       {
         displayName: "Asap Config File Path (mandatory if Type is ASAP)",
         help: "Specify the path to your ~/.asap-config file. This file will be used to fetch you asap credentials such as KeyId, PrivateKey, etc",
         type: "string",
-        placeholder: "~/.asap-config"
+        placeholder: "~/.asap-config",
       },
       {
         displayName: "Additional Claims",
         help: "Provide additional claims for the ASAP token",
         type: "string",
-        placeholder: "additionalClaim1=value1,additionalClaim2=value2"
+        placeholder: "additionalClaim1=value1,additionalClaim2=value2",
       },
       {
         displayName: "Atlas binary location",
         help: "Required if your atlas binary location is not /opt/atlassian/bin/atlas",
         type: "string",
-        placeholder: "/opt/atlassian/bin/atlas"
-      }
+        placeholder: "/opt/atlassian/bin/atlas",
+      },
     ],
-    run
-  }
+    run,
+  },
 ];
 
 module.exports.templateTags = templateTags;
