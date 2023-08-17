@@ -110,6 +110,7 @@ const templateTags = [
         type: "enum",
         options: [
           {displayName: "dev", value: "dev"},
+          {displayName: "platdev", value: "platdev"},
           {displayName: "staging", value: "staging"},
           {displayName: "prod", value: "prod"},
         ],
