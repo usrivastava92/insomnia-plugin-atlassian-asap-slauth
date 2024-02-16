@@ -108,7 +108,10 @@ const templateTags = [
         displayName: "Environment Type (mandatory if Type is SLAUTH)",
         help: "Select the environment for which you want to generate slauth token",
         type: "enum",
-        options: Array.from(validEnvTypesSet, envType => ({ displayName: envType, value: envType })),
+        options: Array.from(validEnvTypesSet, (envType) => ({
+          displayName: envType,
+          value: envType,
+        })),
         defaultValue: "dev",
       },
       {
