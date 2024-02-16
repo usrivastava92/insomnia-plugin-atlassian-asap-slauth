@@ -12,7 +12,7 @@ const execSafely = async (cmd) => {
   }
 };
 
-const validEnvTypesSet = new Set(["dev", "staging", "prod"]);
+const validEnvTypesSet = new Set(["dev", "staging", "prod", "platdev"]);
 const defaultAtlasBinPath = "/opt/atlassian/bin/atlas";
 
 const isNullUndefinedOrBlank = (value) => {
@@ -108,12 +108,7 @@ const templateTags = [
         displayName: "Environment Type (mandatory if Type is SLAUTH)",
         help: "Select the environment for which you want to generate slauth token",
         type: "enum",
-        options: [
-          {displayName: "dev", value: "dev"},
-          {displayName: "platdev", value: "platdev"},
-          {displayName: "staging", value: "staging"},
-          {displayName: "prod", value: "prod"},
-        ],
+        options: Array.from(validEnvTypesSet, envType => ({ displayName: envType, value: envType })),
         defaultValue: "dev",
       },
       {
