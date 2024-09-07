@@ -216,39 +216,22 @@ describe("Test Micros Base Url", () => {
   const defaultServiceId = "service-id";
   const defaultEnv = "stg-east";
   const defaultContext = "";
-  const localPort = 8080;
   const run = templateTags.find(
     (tag) => tag.name === "atlassianMicrosBaseUrl",
   ).run;
 
   test("Test micros base url", async () => {
-    const output = await run(
-      defaultContext,
-      defaultServiceId,
-      defaultEnv,
-      localPort
-    );
+    const output = await run(defaultContext, defaultServiceId, defaultEnv);
     expect(output).toBe("https://service-id.us-east-1.staging.atl-paas.net");
   });
 
   test("Test local base url", async () => {
-    const output = await run(
-      defaultContext,
-      defaultServiceId,
-      "local",
-      localPort,
-      useSlauthGateway,
-    );
+    const output = await run(defaultContext, defaultServiceId, "local");
     expect(output).toBe("http://localhost:8080");
   });
 
   test("Test invalid env", async () => {
-    const output = await run(
-      defaultContext,
-      defaultServiceId,
-      "invalid",
-      localPort,
-    );
+    const output = await run(defaultContext, defaultServiceId, "invalid");
     expect(output).toBe("invalid value defined for `microsEnv` : `invalid`");
   });
 });

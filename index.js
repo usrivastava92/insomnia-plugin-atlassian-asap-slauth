@@ -304,12 +304,6 @@ module.exports.templateTags = [
         })),
         defaultValue: "ddev",
       },
-      {
-        displayName: "Local Port (mandatory if Micros Env is local)",
-        help: "Port for base url for local env",
-        type: "number",
-        defaultValue: "8080",
-      },
     ],
     run: generateMicrosBaseUrl,
   },
