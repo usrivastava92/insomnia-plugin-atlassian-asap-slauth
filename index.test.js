@@ -1,4 +1,4 @@
-const {run} = require("./index.js");
+const {templateTags} = require("./index.js");
 
 jest.mock("util");
 jest.mock("child_process");
@@ -11,22 +11,20 @@ beforeEach(() => {
   });
 });
 
-describe("Test run", () => {
+describe("Test Slauth", () => {
   const defaultAudience = "service-name";
   const defaultEnvType = "dev";
   const defaultSlauthGroup = "slauth-group";
-  const defaultAsapConfig = "~/.asap-config";
   const defaultContext = "";
   const invalidValueList = ["", null, undefined];
+  const run = templateTags.find((tag) => tag.name === "atlassianSlauth").run;
 
   test("Test slauth token", async () => {
     const output = await run(
       defaultContext,
-      "slauth",
       defaultAudience,
       defaultEnvType,
       defaultSlauthGroup,
-      defaultAsapConfig,
     );
     expect(output).toBe(
       `/opt/atlassian/bin/atlas slauth token --aud=${defaultAudience} -e ${defaultEnvType} --groups=${defaultSlauthGroup}`,
@@ -37,11 +35,9 @@ describe("Test run", () => {
     for (const slauthGroup of invalidValueList) {
       const output = await run(
         defaultContext,
-        "slauth",
         defaultAudience,
         defaultEnvType,
         slauthGroup,
-        defaultAsapConfig,
       );
       expect(output).toBe(
         `/opt/atlassian/bin/atlas slauth token --aud=${defaultAudience} -e ${defaultEnvType}`,
@@ -56,11 +52,9 @@ describe("Test run", () => {
     for (const slauthGroup of invalidValueList) {
       const output = await run(
         defaultContext,
-        "slauth",
         defaultAudience,
         defaultEnvType,
         slauthGroup,
-        defaultAsapConfig,
       );
       expect(output).toBe(
         `Error: execution failed : /opt/atlassian/bin/atlas slauth token --aud=${defaultAudience} -e ${defaultEnvType}`,
@@ -72,11 +66,9 @@ describe("Test run", () => {
     for (const envType of invalidValueList) {
       let output = await run(
         defaultContext,
-        "slauth",
         defaultAudience,
         envType,
         defaultSlauthGroup,
-        defaultAsapConfig,
       );
       expect(output).toBe("invalid value defined for `envType`");
     }
@@ -85,11 +77,9 @@ describe("Test run", () => {
   test("Test run with slauth token type when invalid envType is provided", async () => {
     const output = await run(
       defaultContext,
-      "slauth",
       defaultAudience,
       "invalid",
       defaultSlauthGroup,
-      defaultAsapConfig,
     );
     expect(output).toBe("invalid value defined for `envType`");
   });
@@ -98,11 +88,9 @@ describe("Test run", () => {
     invalidValueList.forEach(async (audience) => {
       const output = await run(
         defaultContext,
-        "slauth",
         audience,
         defaultEnvType,
         defaultSlauthGroup,
-        defaultAsapConfig,
       );
       expect(output).toBe(
         `invalid value defined for \`audience\` : \`${audience}\``,
@@ -110,13 +98,31 @@ describe("Test run", () => {
     });
   });
 
-  test("Test asap token", async () => {
+  test("Test slauth when atlas bin location is provided", async () => {
     const output = await run(
       defaultContext,
-      "asap",
       defaultAudience,
       defaultEnvType,
       defaultSlauthGroup,
+      "/some/location/atlas",
+    );
+    expect(output).toBe(
+      "/some/location/atlas slauth token --aud=service-name -e dev --groups=slauth-group",
+    );
+  });
+});
+
+describe("Test Asap", () => {
+  const defaultAudience = "service-name";
+  const defaultAsapConfig = "~/.asap-config";
+  const defaultContext = "";
+  const invalidValueList = ["", null, undefined];
+  const run = templateTags.find((tag) => tag.name === "atlassianAsap").run;
+
+  test("Test asap token", async () => {
+    const output = await run(
+      defaultContext,
+      defaultAudience,
       defaultAsapConfig,
     );
     expect(output).toBe(
@@ -128,10 +134,7 @@ describe("Test run", () => {
     for (const asapConfigFilePath of invalidValueList) {
       const output = await run(
         defaultContext,
-        "asap",
         defaultAudience,
-        defaultEnvType,
-        defaultSlauthGroup,
         asapConfigFilePath,
       );
       expect(output).toBe("invalid value defined for `asapConfigFilePath`");
@@ -142,10 +145,7 @@ describe("Test run", () => {
     const additionalClaims = "exp=123433233";
     const output = await run(
       defaultContext,
-      "asap",
       defaultAudience,
-      defaultEnvType,
-      defaultSlauthGroup,
       defaultAsapConfig,
       additionalClaims,
     );
@@ -156,55 +156,17 @@ describe("Test run", () => {
 
   test("Test run with asap token type when audience is not provided", async () => {
     for (const audience of invalidValueList) {
-      const output = await run(
-        defaultContext,
-        "asap",
-        audience,
-        defaultEnvType,
-        defaultSlauthGroup,
-        defaultAsapConfig,
-      );
+      const output = await run(defaultContext, audience, defaultAsapConfig);
       expect(output).toBe(
         `invalid value defined for \`audience\` : \`${audience}\``,
       );
     }
   });
 
-  test("Test run with invalid token type", async () => {
-    const output = await run(
-      defaultContext,
-      "invalid",
-      defaultAudience,
-      defaultEnvType,
-      defaultSlauthGroup,
-      defaultAsapConfig,
-    );
-    expect(output).toBe("unknown token type : invalid");
-  });
-
-  test("Test slauth when atlas bin location is provided", async () => {
-    const output = await run(
-      defaultContext,
-      "slauth",
-      defaultAudience,
-      defaultEnvType,
-      defaultSlauthGroup,
-      defaultAsapConfig,
-      "",
-      "/some/location/atlas",
-    );
-    expect(output).toBe(
-      "/some/location/atlas slauth token --aud=service-name -e dev --groups=slauth-group",
-    );
-  });
-
   test("Test asap when atlas bin location is provided", async () => {
     const output = await run(
       defaultContext,
-      "asap",
       defaultAudience,
-      defaultEnvType,
-      defaultSlauthGroup,
       defaultAsapConfig,
       "",
       "/some/location/atlas",
@@ -212,5 +174,81 @@ describe("Test run", () => {
     expect(output).toBe(
       "/some/location/atlas asap token --aud=service-name -c ~/.asap-config",
     );
+  });
+
+  test("Test asap when additional claims are provided", async () => {
+    const additionalClaims = "exp=123433233";
+    const output = await run(
+      defaultContext,
+      defaultAudience,
+      defaultAsapConfig,
+      additionalClaims,
+    );
+    expect(output).toBe(
+      "/opt/atlassian/bin/atlas asap token --aud=service-name -c ~/.asap-config --additional-claims='exp=123433233'",
+    );
+  });
+
+  test("Test run with asap token type when audience is not provided", async () => {
+    for (const audience of invalidValueList) {
+      const output = await run(defaultContext, audience, defaultAsapConfig);
+      expect(output).toBe(
+        `invalid value defined for \`audience\` : \`${audience}\``,
+      );
+    }
+  });
+
+  test("Test asap when atlas bin location is provided", async () => {
+    const output = await run(
+      defaultContext,
+      defaultAudience,
+      defaultAsapConfig,
+      "",
+      "/some/location/atlas",
+    );
+    expect(output).toBe(
+      "/some/location/atlas asap token --aud=service-name -c ~/.asap-config",
+    );
+  });
+});
+
+describe("Test Micros Base Url", () => {
+  const defaultServiceId = "service-id";
+  const defaultEnv = "stg-east";
+  const defaultContext = "";
+  const localPort = 8080;
+  const run = templateTags.find(
+    (tag) => tag.name === "atlassianMicrosBaseUrl",
+  ).run;
+
+  test("Test micros base url", async () => {
+    const output = await run(
+      defaultContext,
+      defaultServiceId,
+      defaultEnv,
+      localPort
+    );
+    expect(output).toBe("https://service-id.us-east-1.staging.atl-paas.net");
+  });
+
+  test("Test local base url", async () => {
+    const output = await run(
+      defaultContext,
+      defaultServiceId,
+      "local",
+      localPort,
+      useSlauthGateway,
+    );
+    expect(output).toBe("http://localhost:8080");
+  });
+
+  test("Test invalid env", async () => {
+    const output = await run(
+      defaultContext,
+      defaultServiceId,
+      "invalid",
+      localPort,
+    );
+    expect(output).toBe("invalid value defined for `microsEnv` : `invalid`");
   });
 });
