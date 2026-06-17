@@ -6,6 +6,8 @@
 [![Downloads](https://img.shields.io/npm/dm/insomnia-plugin-atlassian-asap-slauth)](https://www.npmjs.com/package/insomnia-plugin-atlassian-asap-slauth)
 [![SonarCloud Quality Gate](https://sonarcloud.io/api/project_badges/measure?project=usrivastava92_insomnia-plugin-atlassian-asap-slauth&metric=alert_status)](https://sonarcloud.io/dashboard?id=usrivastava92_insomnia-plugin-atlassian-asap-slauth)
 [![SonarCloud Coverage](https://sonarcloud.io/api/project_badges/measure?project=usrivastava92_insomnia-plugin-atlassian-asap-slauth&metric=coverage)](https://sonarcloud.io/component_measures?id=usrivastava92_insomnia-plugin-atlassian-asap-slauth&metric=new_coverage&view=list)
+[![Last Commit](https://img.shields.io/github/last-commit/usrivastava92/insomnia-plugin-atlassian-asap-slauth)](https://github.com/usrivastava92/insomnia-plugin-atlassian-asap-slauth/commits/master)
+[![OpenSSF Scorecard](https://api.scorecard.dev/projects/github.com/usrivastava92/insomnia-plugin-atlassian-asap-slauth/badge)](https://scorecard.dev/status/github.com/usrivastava92/insomnia-plugin-atlassian-asap-slauth)
 
 ## Intro
 
